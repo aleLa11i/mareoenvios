@@ -26,13 +26,12 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
     ShippingRepository shippingRepository;
 
     @Override
-    public void runTask(ConcurrentTaskRequestDTO task) {
+    public void runTask(ConcurrentTaskRequestDTO task){
         task.getShippings().forEach( shipping ->{
             new Thread(() -> {
                 try{
                     this.executeTask( shipping );
-                }catch (BusinessException e){
-                    LOGGER.error(String.format("Error al ejecutar hilo '%s' para el envio con ID='%s'", Thread.currentThread().getId(), shipping.getShippingId()));
+                }catch (Exception e){
                     e.printStackTrace();
                 }
             }).start();
@@ -41,13 +40,19 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
 
     public void executeTask( ConcurrentTaskShippingDTO shippingDTO ) throws BusinessException{
         try {
+            Shipping shipping = shippingRepository.getById(shippingDTO.getShippingId());
+            if(shipping.getState().equals(ShippingStateEnum.CANCELLED.getValue())){
+                throw new BusinessException(String.format("El envío con ID='%s' se encuentra cancelado por lo que no se puede ejecutar una tarea",shipping.getId()));
+            }
+            if(shipping.getState().equals(ShippingStateEnum.DELIVERED.getValue())){
+                throw new BusinessException(String.format("El envío con ID='%s' ya llego",shipping.getId()));
+            }
             TimerTask task = new TimerTask() {
                 public void run() {
-                    LOGGER.info(String.format("Ejecutando tarea para el envio con ID='%s'", shippingDTO.getShippingId()));
                     try {
-                        Shipping shipping = shippingRepository.getById(shippingDTO.getShippingId());
+                        LOGGER.info(String.format("Ejecutando tarea para el envio con ID='%s'", shippingDTO.getShippingId()));
                         changeState( shippingDTO.getNextState(), shipping);
-                    } catch (RepositoryException | NoResultException | BusinessException e) {
+                    } catch ( NoResultException | BusinessException e) {
                         e.printStackTrace();
                     }
                 }
@@ -55,8 +60,8 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
             Timer timer = new Timer("Timer");
             Long delay = shippingDTO.getTimeStartInSeg()*1000; //El timer toma en milisec por eso hay que hacer el pasaje
             timer.schedule(task, delay );
-        }catch (Exception e){
-            throw new BusinessException(e.getMessage(), e);
+        }catch (RepositoryException e){
+            e.printStackTrace();
         }
     }
 
@@ -73,6 +78,7 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                 }
             }
             shippingRepository.update(shipping);
+            LOGGER.info(String.format("Se ejecuto correctamente tarea para el envio con ID='%s'", shipping.getId()));
         }catch (RepositoryException e){
             throw new BusinessException(e.getMessage(), e);
         }catch (IllegalArgumentException e){

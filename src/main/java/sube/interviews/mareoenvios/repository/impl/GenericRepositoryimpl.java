@@ -7,9 +7,12 @@ import jakarta.persistence.PersistenceException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import sube.interviews.mareoenvios.exception.RepositoryException;
 import sube.interviews.mareoenvios.repository.GenericRepository;
 
@@ -25,6 +28,7 @@ public class GenericRepositoryimpl<T> implements GenericRepository<T> {
     public GenericRepositoryimpl(){}
 
     public GenericRepositoryimpl(Class<T> classz){ this.classz = classz; }
+
 
     @Override
     public T getById(Long id) throws RepositoryException {
@@ -60,6 +64,7 @@ public class GenericRepositoryimpl<T> implements GenericRepository<T> {
     }
 
     @Override
+    @Transactional
     public void update(T entity) throws RepositoryException {
         try {
             LOGGER.info(String.format("Actualizando '%s' ...", classz.getSimpleName()));
