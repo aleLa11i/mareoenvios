@@ -18,16 +18,16 @@ import sube.interviews.mareoenvios.repository.GenericRepository;
 
 import java.util.List;
 
-public class GenericRepositoryimpl<T> implements GenericRepository<T> {
-    private final static Logger LOGGER = LogManager.getLogger(GenericRepositoryimpl.class);
+public class GenericRepositoryImpl<T> implements GenericRepository<T> {
+    private final static Logger LOGGER = LogManager.getLogger(GenericRepositoryImpl.class);
 
     @PersistenceContext
     protected EntityManager entityManager;
     protected Class<T> classz;
 
-    public GenericRepositoryimpl(){}
+    public GenericRepositoryImpl(){}
 
-    public GenericRepositoryimpl(Class<T> classz){ this.classz = classz; }
+    public GenericRepositoryImpl(Class<T> classz){ this.classz = classz; }
 
 
     @Override
@@ -45,8 +45,7 @@ public class GenericRepositoryimpl<T> implements GenericRepository<T> {
             e.printStackTrace();
             throw new NoResultException(String.format("No se encuentra '%s' con ID='%s'", classz.getSimpleName(), id));
         } catch (PersistenceException e){
-            e.printStackTrace();
-            throw new RepositoryException(String.format("Error al buscar '%s' con ID='%s'", classz.getSimpleName(), id));
+            throw new RepositoryException(String.format("Error al obtener '%s' con ID='%s'", classz.getSimpleName(), id), e);
         }
     }
 
@@ -56,10 +55,23 @@ public class GenericRepositoryimpl<T> implements GenericRepository<T> {
             LOGGER.info(String.format("Buscando listado de '%s' ...", classz.getSimpleName()));
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(classz);
+            Root<T> root = cq.from(classz);
             return entityManager.createQuery(cq).getResultList();
         }catch (PersistenceException e){
             e.printStackTrace();
-            throw new RepositoryException(String.format("Error al buscar listado de entidades '%s'", classz.getSimpleName()));
+            throw new RepositoryException(String.format("Error al buscar listado de entidades '%s'", classz.getSimpleName()), e);
+        }
+    }
+
+    @Override
+    @Transactional
+    public T save(T entity) throws RepositoryException {
+        try {
+            LOGGER.info(String.format("Guardando '%s' ...", classz.getSimpleName()));
+            entityManager.persist(entity);
+            return entity;
+        } catch (PersistenceException e) {
+            throw new RepositoryException(String.format("Error al guardar entidad '%s'", classz.getSimpleName()), e);
         }
     }
 

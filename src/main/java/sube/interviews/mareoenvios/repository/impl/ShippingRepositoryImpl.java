@@ -7,6 +7,6 @@ import sube.interviews.mareoenvios.repository.GenericRepository;
 import sube.interviews.mareoenvios.repository.ShippingRepository;
 
 @Component
-public class ShippingRepositoryImpl extends GenericRepositoryimpl<Shipping> implements ShippingRepository {
+public class ShippingRepositoryImpl extends GenericRepositoryImpl<Shipping> implements ShippingRepository {
     public ShippingRepositoryImpl() { super(Shipping.class); }
 }

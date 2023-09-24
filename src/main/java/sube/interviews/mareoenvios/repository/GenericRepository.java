@@ -10,5 +10,7 @@ public interface GenericRepository<T> {
 
     List<T> getList() throws RepositoryException;
 
+    T save( T entity ) throws RepositoryException;
+
     void update( T entity ) throws RepositoryException;
 }

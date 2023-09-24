@@ -8,11 +8,11 @@ public enum ShippingStateEnum {
     DELIVERED("Delivered"),
     CANCELLED("Cancelled");
 
+    private final String value;
+
     ShippingStateEnum(String value) {
         this.value = value;
     }
-
-    private final String value;
 
     public String getValue() {
         return value;

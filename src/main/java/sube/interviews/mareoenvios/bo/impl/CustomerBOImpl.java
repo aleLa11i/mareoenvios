@@ -22,7 +22,7 @@ public class CustomerBOImpl implements CustomerBO {
     CustomerRepository customerRepository;
 
     @Override
-    public CustomerDTO getbyId(Long id) throws BusinessException {
+    public CustomerDTO getbyId(Long id) throws BusinessException, NoResultException {
         try {
             Customer customer = customerRepository.getById(id);
             return CustomerMapper.INSTANCE.mapEntityToDto(customer);

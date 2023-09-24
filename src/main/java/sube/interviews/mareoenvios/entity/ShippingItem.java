@@ -9,9 +9,8 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-@DynamicInsert
 @Entity
-@Table(name = "shippinh_item")
+@Table(name = "shipping_item")
 public class ShippingItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -20,11 +19,13 @@ public class ShippingItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "shipping_id")
-    private Long shippingId;
+    @ManyToOne()
+    @JoinColumn(name = "shipping_id", insertable = false, updatable = false)
+    private Shipping shippingId;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @ManyToOne()
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    private Product productId;
 
     @Column(name = "product_count")
     private Long productCount;

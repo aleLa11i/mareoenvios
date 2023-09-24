@@ -38,13 +38,17 @@ public class Shipping implements Serializable {
     @Column(name = "priority")
     private Integer priority;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "shipping_item",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "shipping_id", referencedColumnName = "id", insertable = false, updatable = false)
     )
     private List<Product> products = new ArrayList<Product>();
+
+    @OneToMany( orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn( name = "shipping_id", referencedColumnName = "id")
+    private List<Task> tasks = new ArrayList<>();
 
     public Shipping() {
     }

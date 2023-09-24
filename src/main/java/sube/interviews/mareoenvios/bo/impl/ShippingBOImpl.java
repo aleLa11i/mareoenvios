@@ -25,7 +25,7 @@ public class ShippingBOImpl implements ShippingBO {
     ShippingRepository shippingRepository;
 
     @Override
-    public ShippingDTO getbyId(Long id) throws BusinessException {
+    public ShippingDTO getbyId(Long id) throws BusinessException, NoResultException {
         try {
             Shipping shipping = shippingRepository.getById(id);
             return ShippingMapper.INSTANCE.mapEntityToDto(shipping);

@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +28,10 @@ public class Product implements Serializable {
     @Column(name = "weight")
     private Float weight;
 
+    @OneToMany( orphanRemoval = true)
+    @JoinColumn( name = "product_id", referencedColumnName = "id")
+    private List<ShippingItem> shippingItems = new ArrayList<>();
+
     // Se generan Getters ya que mapstruct es incompatible con Lombok
 
     public String getDescription() {
@@ -34,5 +40,9 @@ public class Product implements Serializable {
 
     public Float getWeight() {
         return weight;
+    }
+
+    public List<ShippingItem> getShippingItems() {
+        return shippingItems;
     }
 }
