@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class ConcurrentTaskShippingDTO {
 
-    @NotNull(message = "El id del envio no puede ser nulo")
     @Valid
+    @NotNull(message = "El id del envio no puede ser nulo")
     @JsonProperty("shipping-id")
     private Long shippingId;
 

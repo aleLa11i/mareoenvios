@@ -1,5 +1,6 @@
 package sube.interviews.mareoenvios.service;
 
+import jakarta.persistence.NoResultException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,16 @@ public class CustomerService {
     CustomerBO customerBO;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerDTO> getCustomer(@PathVariable("id") Long id ) throws ServiceException {
+    public ResponseEntity getCustomer(@PathVariable("id") Long id ){
         try {
             CustomerDTO customerDTO = customerBO.getbyId(id);
             return ResponseEntity.status(HttpStatus.OK).body(customerDTO);
         }catch (BusinessException e){
-            throw new ServiceException(e.getMessage(), e);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error en el servidor.");
+        }catch (NoResultException e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(e.getMessage()));
         }
     }
 }
