@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Getter
@@ -30,6 +32,9 @@ public class Task {
     @Column(name = "error", nullable = true)
     private String error;
 
+    @Column(name = "date", nullable = true)
+    private LocalDateTime date;
+
     public Task(){}
 
     public Task(Shipping shippingId, String state) {
@@ -37,10 +42,19 @@ public class Task {
         this.state = state;
     }
 
+    public Task(Shipping shippingId, String state, LocalDateTime date) {
+        this(shippingId, state);
+        this.date = date;
+    }
+
     public Task(Shipping shippingId, String state, String error) {
-        this.shippingId = shippingId;
-        this.state = state;
+        this(shippingId, state);
         this.error = error;
+    }
+
+    public Task(Shipping shippingId, String state, String error, LocalDateTime date) {
+        this(shippingId, state, error);
+        this.date = date;
     }
 
     public void setId(Long id) {
