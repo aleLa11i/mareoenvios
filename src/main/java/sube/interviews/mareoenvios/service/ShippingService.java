@@ -55,22 +55,4 @@ public class ShippingService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error en el servidor.");
         }
     }
-
-    @PatchMapping(value = "/api/shippings/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity patchShippingState(
-            @Valid @Positive @PathVariable("id") Long id,
-            @RequestBody ShippingStateRequestDTO body
-    ){
-        try {
-            //TODO: Validar id, validar body, validar que existe el id ( se hace en repository )
-
-            return ResponseEntity.status(HttpStatus.OK).body("");
-//        }catch (BusinessException e){
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error en el servidor.");
-        }catch (NoResultException e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(e.getMessage()));
-        }
-    }
 }
