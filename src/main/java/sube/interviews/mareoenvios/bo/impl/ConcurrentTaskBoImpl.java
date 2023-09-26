@@ -24,12 +24,15 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
 
     private final static Map<Long, Thread> threadMap = new HashMap<>();
     private final static Logger LOGGER = LogManager.getLogger(ConcurrentTaskBoImpl.class);
+    private final static Long maxTimeTotal = 1800L; //Se establece un maximo de 180 segundos ( 30 minutos ) para todas las tareas
+    private final static Long maxTimeTask = 60L; //Se establece un maximo de 60 segundos para cada tarea
 
     @Autowired
     ShippingRepository shippingRepository;
@@ -41,48 +44,43 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
     MareoEnviosAPI mareoEnviosAPI;
 
     @Override
-    public void runTask(ConcurrentTaskRequestDTO taskDTO) {
+    public void runTask(ConcurrentTaskRequestDTO taskDTO) throws BusinessException{
+        Long timeTotal = taskDTO.getShippings()
+                .stream().map( shippingDTO -> shippingDTO.getTimeStartInSeg()).collect(Collectors.toList())
+                .stream().reduce( 0L, (subtotal, item) -> subtotal + item );
+        if( timeTotal > maxTimeTotal ){
+            throw new BusinessException(String.format("El tiempo maximo total es de %s segundos.", maxTimeTotal));
+        }
+
         taskDTO.getShippings().forEach(taskShippingDTO -> {
             try {
                 Shipping shipping = shippingRepository.getById(taskShippingDTO.getShippingId());
                 Task task = taskRepository.save(new Task(shipping, TaskStateEnum.IN_PROGRESS.getValue()));
 
-                if (shipping.getState().equals(ShippingStateEnum.CANCELLED.getValue())) {
-                    task.setState(TaskStateEnum.FAILED.getValue());
-                    task.setError(String.format("El envío con ID='%s' se encuentra cancelado por lo que no se puede ejecutar una tarea.", shipping.getId()));
-                    task.setDate(LocalDateTime.now());
-                    taskRepository.update(task);
-                    threadMap.remove(shipping.getId());
-                    throw new BusinessException(String.format("El envío con ID='%s' se encuentra cancelado por lo que no se puede ejecutar una tarea. Se cancela tarea.", shipping.getId()));
-                }
-                if (shipping.getState().equals(ShippingStateEnum.DELIVERED.getValue())) {
-                    task.setState(TaskStateEnum.FAILED.getValue());
-                    task.setError(String.format("El envío con ID='%s' ya llego.", shipping.getId()));
-                    task.setDate(LocalDateTime.now());
-                    taskRepository.update(task);
-                    threadMap.remove(shipping.getId());
-                    throw new BusinessException(String.format("El envío con ID='%s' ya llego. Se cancela tarea.", shipping.getId()));
-                }
-
                 ArrayList<Long> idsThreadsList = new ArrayList<>(threadMap.keySet());
                 if (idsThreadsList.contains(shipping.getId())) {
-                    task.setState(TaskStateEnum.FAILED.getValue());
-                    task.setError(String.format("El envío con ID='%s' ya posee una tarea ejecutandose", shipping.getId()));
-                    task.setDate(LocalDateTime.now());
-                    taskRepository.update(task);
-                    threadMap.remove(shipping.getId());
-                    throw new BusinessException(String.format("El envío con ID='%s' ya posee una tarea ejecutandose", shipping.getId()));
-                } else {
-                    Thread shippingTask = new Thread(() -> {
-                        try {
-                            this.executeTask(taskShippingDTO, shipping, task);
-                        } catch (BusinessException e) {
-                            e.printStackTrace();
-                        }
-                    });
-                    shippingTask.start();
-                    threadMap.put(shipping.getId(), shippingTask);
+                    cancelTask(task,shipping,String.format("El envío con ID='%s' ya posee una tarea ejecutandose", shipping.getId()));
                 }
+                if(taskShippingDTO.getTimeStartInSeg() > maxTimeTask){
+                    cancelTask(task,shipping,String.format("La tarea del envío con ID='%s' supera el tiempo maximo de %s segundos.",  shipping.getId(), maxTimeTask));
+                }
+                if (shipping.getState().equals(ShippingStateEnum.CANCELLED.getValue())) {
+                    cancelTask(task,shipping,String.format("El envío con ID='%s' se encuentra cancelado por lo que no se puede ejecutar una tarea.", shipping.getId()));
+                }
+                if (shipping.getState().equals(ShippingStateEnum.DELIVERED.getValue())) {
+                    cancelTask(task,shipping,String.format("El envío con ID='%s' ya llego.", shipping.getId()));
+                }
+
+                Thread shippingTask = new Thread(() -> {
+                    try {
+                        this.executeTask(taskShippingDTO, shipping, task);
+                    } catch (BusinessException e) {
+                        e.printStackTrace();
+                    }
+                });
+                shippingTask.start();
+                threadMap.put(shipping.getId(), shippingTask);
+
             } catch (BusinessException e) {
                 e.printStackTrace();
                 threadMap.remove(taskShippingDTO.getShippingId());
@@ -93,7 +91,7 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
         });
     }
 
-    public void executeTask(ConcurrentTaskShippingDTO taskShippingDTO, Shipping shipping, Task task) throws BusinessException {
+    private void executeTask(ConcurrentTaskShippingDTO taskShippingDTO, Shipping shipping, Task task) throws BusinessException {
         TimerTask timingTask = new TimerTask() {
             public void run() {
                 try {
@@ -107,12 +105,12 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                     task.setState(TaskStateEnum.SUCCESS.getValue());
                     task.setDate(LocalDateTime.now());
                     taskRepository.update(task);
-                    threadMap.remove(shipping.getId());
 
                     LOGGER.info(String.format("Se ejecuto correctamente tarea para el envio con ID='%s'", shipping.getId()));
                 } catch (NoResultException | BusinessException | RepositoryException | IOException e) {
-                    threadMap.remove(shipping.getId());
                     e.printStackTrace();
+                } finally {
+                    threadMap.remove(shipping.getId());
                 }
             }
         };
@@ -121,7 +119,7 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
         timer.schedule(timingTask, delay);
     }
 
-    public void changeState(Boolean nextState, Shipping shipping) throws BusinessException {
+    private void changeState(Boolean nextState, Shipping shipping) throws BusinessException {
         try {
             if (!nextState) {
                 shipping.setState(ShippingStateEnum.CANCELLED.getValue());
@@ -138,6 +136,20 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
             }
         } catch (IllegalArgumentException e) {
             throw new BusinessException(String.format("El envio con ID='%s' posee un valor de estado = '%s' que es invalido", shipping.getId(), shipping.getState()));
+        }
+    }
+
+    private void cancelTask(Task task, Shipping shipping, String message) throws BusinessException{
+        try{
+            task.setState(TaskStateEnum.FAILED.getValue());
+            task.setError(message);
+            task.setDate(LocalDateTime.now());
+            taskRepository.update(task);
+            throw new BusinessException(message);
+        }catch (RepositoryException e){
+            throw new BusinessException(e.getMessage(), e);
+        }finally {
+            threadMap.remove(shipping.getId());
         }
     }
 }
