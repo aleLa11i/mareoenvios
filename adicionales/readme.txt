@@ -12,10 +12,9 @@ Dificultades:
 	No se realizo dockerizacion
 	No se realizaron Test unitarios
 
-Las dificultades fueron por un lado algo de falta de conocimiento sumado a falta de tiempo para poder investigar y aprender. Queda pendiente a nivel personal.
-
 La aplicacion realizada se basa en los requerimientos enviados para el examen tecnico, consta de 5 servicios ( existe un 6to servicio pero es a modo practico para simular la API de la empresa mareo envios ). Los servicios se encuentran detallados en los swaggers.
 La aplicacion consta de una API Rest que permite obtener HTTP Requests y hacer su devolucion como Responses. Se trabajo el manejo de Excepciones y validaciones de datos entrantes de las requests. Utiliza la tecnologia Springboot siguiendo el patron de diseño Service - BO - Repository ( tambien se suele utilizar la nomenclatura Controller en lugar de Service y DAO en lugar de repository ). Se utiliza mapstruct para los mapeos de entidad a DTO. Hibernate para el mapeo de entidad de base de datos a POJOs. Criteria para consultas a mySQL. Maven para control de dependencias.
+La aplicacion se trabajo con hilos para aceptar tareas varias y que puedan ejecutarse al mismo tiempo, y en caso de ser para el mismo id, se trabajo con la tecnologia ExecuteService para crear una cola de tareas. 
 
 Se dejan 2 dump de base de datos uno posee tanto los drop como los insert y el otro solo los drop table sin data, para que la aplicacion funcione correctamente es recomendable que las tablas tengan data. 
 
