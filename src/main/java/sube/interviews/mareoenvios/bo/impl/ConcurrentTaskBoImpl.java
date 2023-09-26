@@ -23,14 +23,15 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Component
 public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
 
-    private final static Map<Long, Thread> taskMap = new HashMap<>();
+    private final static Map<Long, ExecutorService> taskMap = new HashMap<>();
+    private final static Map<Long, Integer> countTaskMap = new HashMap<>();
     private final static Logger LOGGER = LogManager.getLogger(ConcurrentTaskBoImpl.class);
-    private final static Long maxTimeTotal = 1800L; //Se establece un maximo de 180 segundos ( 30 minutos ) para todas las tareas
     private final static Long maxTimeTask = 60L; //Se establece un maximo de 60 segundos para cada tarea
 
     @Autowired
@@ -44,23 +45,13 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
 
     @Override
     public void runTask(ConcurrentTaskRequestDTO taskDTO) throws BusinessException{
-        Long timeTotal = taskDTO.getShippings()
-                .stream().map( shippingDTO -> shippingDTO.getTimeStartInSeg()).collect(Collectors.toList())
-                .stream().reduce( 0L, (subtotal, item) -> subtotal + item );
-        if( timeTotal > maxTimeTotal ){
-            throw new BusinessException(String.format("El tiempo maximo total es de %s segundos.", maxTimeTotal));
-        }
-
         taskDTO.getShippings().forEach(taskShippingDTO -> {
             try {
                 Shipping shipping = shippingRepository.getById(taskShippingDTO.getShippingId());
                 Task task = taskRepository.save(new Task(shipping, TaskStateEnum.IN_PROGRESS.getValue(), LocalDateTime.now()));
-                
-                ArrayList<Long> idsThreadsList = new ArrayList<>(taskMap.keySet());
-                if (idsThreadsList.contains(shipping.getId())) {
-                    cancelTask(task,String.format("El envío con ID='%s' ya posee una tarea ejecutandose", shipping.getId()));
-                    return;
-                }
+
+                LOGGER.info(String.format("Comienza tarea para el envio con ID='%s'..", shipping.getId()));
+
                 if(taskShippingDTO.getTimeStartInSeg() > maxTimeTask){
                     cancelTask(task,String.format("La tarea del envío con ID='%s' supera el tiempo maximo de %s segundos.",  shipping.getId(), maxTimeTask));
                     return;
@@ -81,12 +72,22 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                         e.printStackTrace();
                     }
                 });
-                shippingTask.start();
-                taskMap.put(shipping.getId(), shippingTask);
 
+
+                ArrayList<Long> idsThreadsList = new ArrayList<>(taskMap.keySet());
+                if (idsThreadsList.contains(shipping.getId())) {
+                    taskRepository.save(new Task(shipping, TaskStateEnum.FAILED.getValue(),String.format("El envío con ID='%s' ya posee una tarea ejecutandose", shipping.getId()), LocalDateTime.now(), LocalDateTime.now()));
+                    LOGGER.info(String.format("El envío con ID='%s' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.", shipping.getId()));
+                    taskMap.get(shipping.getId()).submit(shippingTask);
+                    countTaskMap.put(shipping.getId(), countTaskMap.get(shipping.getId()) + 1 );
+                } else {
+                    ExecutorService executorService = Executors.newCachedThreadPool();
+                    taskMap.put(shipping.getId(), executorService);
+                    countTaskMap.put(shipping.getId(), 1);
+                    executorService.execute(shippingTask);
+                }
             } catch (BusinessException | RepositoryException e) {
                 e.printStackTrace();
-                taskMap.remove(taskShippingDTO.getShippingId());
             }
         });
     }
@@ -110,7 +111,12 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                 } catch (NoResultException | BusinessException | RepositoryException | IOException e) {
                     e.printStackTrace();
                 } finally {
-                    taskMap.remove(shipping.getId());
+                    countTaskMap.put(shipping.getId(), countTaskMap.get(shipping.getId()) - 1 );
+                    if( countTaskMap.get(shipping.getId()) == 0){
+                        taskMap.get(shipping.getId()).shutdown();
+                        LOGGER.info("Finalizo cola de tareas con ID ="+ shipping.getId());
+                        taskMap.remove(shipping.getId());
+                    }
                 }
             }
         };

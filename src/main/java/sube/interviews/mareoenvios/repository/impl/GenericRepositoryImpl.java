@@ -30,7 +30,6 @@ public class GenericRepositoryImpl<T> implements GenericRepository<T> {
     @Override
     public T getById(Long id) throws RepositoryException {
         try{
-            LOGGER.info(String.format("Buscando '%s' con ID='%s'...", classz.getSimpleName(), id));
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(classz);
             Root<T> root = cq.from(classz);
@@ -49,7 +48,6 @@ public class GenericRepositoryImpl<T> implements GenericRepository<T> {
     @Override
     public List<T> getList() throws RepositoryException {
         try{
-            LOGGER.info(String.format("Buscando listado de '%s' ...", classz.getSimpleName()));
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(classz);
             Root<T> root = cq.from(classz);
@@ -64,7 +62,6 @@ public class GenericRepositoryImpl<T> implements GenericRepository<T> {
     @Transactional
     public T save(T entity) throws RepositoryException {
         try {
-            LOGGER.info(String.format("Guardando '%s' ...", classz.getSimpleName()));
             entityManager.persist(entity);
             return entity;
         } catch (PersistenceException e) {
@@ -76,7 +73,6 @@ public class GenericRepositoryImpl<T> implements GenericRepository<T> {
     @Transactional
     public void update(T entity) throws RepositoryException {
         try {
-            LOGGER.info(String.format("Actualizando '%s' ...", classz.getSimpleName()));
             entityManager.merge(entity);
         }catch (PersistenceException e){
             e.printStackTrace();

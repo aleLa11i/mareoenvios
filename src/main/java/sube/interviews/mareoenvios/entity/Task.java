@@ -43,4 +43,12 @@ public class Task {
         this.state = state;
         this.startDate = startDate;
     }
+
+    public Task(Shipping shippingId, String state, String error, LocalDateTime startDate, LocalDateTime endDate) {
+        this.shippingId = shippingId;
+        this.state = state;
+        this.error = error;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }
