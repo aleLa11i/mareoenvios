@@ -1,0 +1,5 @@
+Se requiere que el servicio posea alta disponibilidad, por lo que se solicita que se explique cómo sería la arquitectura. El objetivo es que la arquitectura sea on premise. No se acepta arquitecturas que maneje todo en la nube.
+
+Respuesta:
+En cuanto a la arquitectura, lo mas eficiente que se me ocurre es utilizar un balanceador y tener 2 o mas instancias de la app en servidores, el balanceador le ortoga a la app un dominio unico al cual se le pueda ingresar y este balanceador las enruta a una de las instancias levantadas. La ventaja de esto es que si una instancia se cae, el balanceador se va a encargar de redireccionar todas las peticiones de esa instancia a otro que este activa.
+Tambien, es recomendable tener un respaldo de la base de datos y la posibilidad de hacer un rollback ante cualquier inconveniente.
