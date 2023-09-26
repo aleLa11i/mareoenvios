@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @DynamicInsert
-@Table(name = "task")
+@Table(name = "shipping_task")
 public class Task {
     private static final long serialVersionUID = 1L;
 
@@ -30,28 +30,17 @@ public class Task {
     @Column(name = "error", nullable = true)
     private String error;
 
-    @Column(name = "date", nullable = true)
-    private LocalDateTime date;
+    @Column(name = "start_date", nullable = true)
+    private LocalDateTime startDate;
+
+    @Column(name = "end_date", nullable = true)
+    private LocalDateTime endDate;
 
     public Task(){}
 
-    public Task(Shipping shippingId, String state) {
+    public Task(Shipping shippingId, String state, LocalDateTime startDate) {
         this.shippingId = shippingId;
         this.state = state;
-    }
-
-    public Task(Shipping shippingId, String state, LocalDateTime date) {
-        this(shippingId, state);
-        this.date = date;
-    }
-
-    public Task(Shipping shippingId, String state, String error) {
-        this(shippingId, state);
-        this.error = error;
-    }
-
-    public Task(Shipping shippingId, String state, String error, LocalDateTime date) {
-        this(shippingId, state, error);
-        this.date = date;
+        this.startDate = startDate;
     }
 }

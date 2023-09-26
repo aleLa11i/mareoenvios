@@ -2,11 +2,11 @@ package sube.interviews.mareoenvios.enums;
 
 public enum ShippingStateEnum {
 
-    INITIAL("Initial"),
-    SEND_TO_MAIL("Send to mail"),
-    IN_TRAVEL("In travel"),
-    DELIVERED("Delivered"),
-    CANCELLED("Cancelled");
+    INITIAL("Inicial"),
+    SEND_TO_MAIL("Entregado a correo"),
+    IN_TRAVEL("En camino"),
+    DELIVERED("Entregado"),
+    CANCELLED("Cancelado");
 
     private final String value;
 

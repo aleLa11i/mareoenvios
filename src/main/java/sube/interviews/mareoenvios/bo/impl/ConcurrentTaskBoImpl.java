@@ -54,7 +54,7 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
         taskDTO.getShippings().forEach(taskShippingDTO -> {
             try {
                 Shipping shipping = shippingRepository.getById(taskShippingDTO.getShippingId());
-                Task task = taskRepository.save(new Task(shipping, TaskStateEnum.IN_PROGRESS.getValue()));
+                Task task = taskRepository.save(new Task(shipping, TaskStateEnum.IN_PROGRESS.getValue(), LocalDateTime.now()));
 
                 ArrayList<Long> idsThreadsList = new ArrayList<>(threadMap.keySet());
                 if (idsThreadsList.contains(shipping.getId())) {
@@ -102,7 +102,7 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                     shippingRepository.update(shipping);
 
                     task.setState(TaskStateEnum.SUCCESS.getValue());
-                    task.setDate(LocalDateTime.now());
+                    task.setEndDate(LocalDateTime.now());
                     taskRepository.update(task);
 
                     LOGGER.info(String.format("Se ejecuto correctamente tarea para el envio con ID='%s'", shipping.getId()));
@@ -142,7 +142,7 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
         try{
             task.setState(TaskStateEnum.FAILED.getValue());
             task.setError(message);
-            task.setDate(LocalDateTime.now());
+            task.setEndDate(LocalDateTime.now());
             taskRepository.update(task);
             throw new BusinessException(message);
         }catch (RepositoryException e){

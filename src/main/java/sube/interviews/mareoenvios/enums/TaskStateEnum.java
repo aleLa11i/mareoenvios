@@ -2,9 +2,9 @@ package sube.interviews.mareoenvios.enums;
 
 public enum TaskStateEnum {
 
-    SUCCESS("Success"),
-    FAILED("Failed"),
-    IN_PROGRESS("In progress");
+    SUCCESS("Éxito"),
+    FAILED("Fallido"),
+    IN_PROGRESS("En progreso");
 
     private final String value;
 
