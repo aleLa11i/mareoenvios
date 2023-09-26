@@ -1,6 +1,5 @@
 package sube.interviews.mareoenvios.bo;
 
-import sube.interviews.mareoenvios.dto.ProductDTO;
 import sube.interviews.mareoenvios.dto.ProductToReportDTO;
 import sube.interviews.mareoenvios.exception.BusinessException;
 

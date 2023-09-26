@@ -7,5 +7,6 @@ import java.util.List;
 
 @Data
 public class ConcurrentTaskRequestDTO {
+
     private List<ConcurrentTaskShippingDTO> shippings = new ArrayList<>();
 }

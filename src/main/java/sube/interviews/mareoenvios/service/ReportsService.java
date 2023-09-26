@@ -10,21 +10,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sube.interviews.mareoenvios.bo.ProductBO;
-import sube.interviews.mareoenvios.dto.ProductDTO;
 import sube.interviews.mareoenvios.dto.ProductToReportDTO;
 import sube.interviews.mareoenvios.exception.BusinessException;
-import sube.interviews.mareoenvios.exception.ServiceException;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/reports")
+@RequestMapping("/reports")
 public class ReportsService {
+
+    private static final Logger LOGGER = LogManager.getLogger(ReportsService.class);
 
     @Autowired
     ProductBO productBO;
-
-    private static final Logger LOGGER = LogManager.getLogger(ReportsService.class);
 
     @GetMapping(value = "/top-sent", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity topSent(){
@@ -33,7 +31,7 @@ public class ReportsService {
             return ResponseEntity.status(HttpStatus.OK).body(list);
         } catch (BusinessException e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error en el servidor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

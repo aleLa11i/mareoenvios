@@ -12,6 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@DynamicInsert
 @Entity
 @Table(name = "shipping")
 public class Shipping implements Serializable {

@@ -19,7 +19,6 @@ import sube.interviews.mareoenvios.repository.TaskRepository;
 import sube.interviews.mareoenvios.service.clients.MareoEnviosAPI;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

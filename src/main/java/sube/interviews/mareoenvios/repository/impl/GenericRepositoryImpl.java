@@ -10,9 +10,6 @@ import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import sube.interviews.mareoenvios.exception.RepositoryException;
 import sube.interviews.mareoenvios.repository.GenericRepository;
 

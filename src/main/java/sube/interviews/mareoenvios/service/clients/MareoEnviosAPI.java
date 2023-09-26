@@ -20,7 +20,7 @@ public class MareoEnviosAPI {
 
     public void patchState(Long id, String state) throws IOException{
         HttpClient httpClient = HttpClients.createDefault();
-        HttpPatch httpPatch = new HttpPatch("http://localhost:8080/api/shippings/" + id );
+        HttpPatch httpPatch = new HttpPatch("http://localhost:8080/mareoenvios/api/shippings/" + id );
         String requestBody =  String.format("{\"transition\": \"%s\"}", state );
         httpPatch.setEntity(new StringEntity(requestBody, ContentType.APPLICATION_JSON));
         HttpResponse response = httpClient.execute(httpPatch);

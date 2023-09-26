@@ -1,0 +1,190 @@
+openapi: "3.0.0"
+info:
+  title: "Servicios Mareo Envios"
+  version: 1.0.0
+  description: "Servicios a exponer en el examen Mareo Envios para Nacion Servicios"
+basePath: "/mareoenvios/api"
+schemes:
+- "http"
+paths:
+  /customers/{id}:
+    parameters: 
+    - name: "id"
+      in: "path"
+      required: true
+      type: integer
+      description: "Id del comprador"
+    get:
+      summary: "Obtener información del comprador"
+      operationId: "getCustomer"
+      produces: 
+      - "/application/json"
+      responses: 
+        200:
+          description: (OK) Retorna el comprador
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                    example: "Sofia"
+                  lastName:
+                    type: string
+                    example: "Gonzalez"
+                  address:
+                    type: string
+                    example: "Pellegrini 560"
+                  city:
+                    type: string
+                    example: "Rosario"
+                  shippings:
+                    type: array
+                    items:
+                      properties:
+                        state:
+                          type: string
+                          example: "In travel"
+                        sendDate:
+                          type: string
+                          example: "2023-03-01"
+                        arriveDate: 
+                          type: string
+                          example: "2023-09-25"
+                        priority:
+                          type: integer
+                          example: 2
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: No se encuentra 'Customer' con ID=5
+  /shippings/{id}:
+    parameters: 
+    - name: "id"
+      in: "path"
+      required: true
+      type: integer
+      description: "Id del envio"
+    get:
+      summary: "Obtener información del envío y productos comprados"
+      operationId: "getShipping"
+      produces: 
+      - "/application/json"
+      responses: 
+        200:
+          description: (OK) Retorna el envio
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customer:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        example: "Sofia"
+                      lastName:
+                        type: string
+                        example: "Gonzalez"
+                      address:
+                        type: string
+                        example: "Pellegrini 560"
+                      city:
+                        type: string
+                        example: "Rosario"
+                  state:
+                    type: string
+                    example: "Initial"
+                  sendDate:
+                    type: string
+                    example: "2023-03-01"
+                  arriveDate: 
+                    type: string
+                    example: "2023-09-25"
+                  priority:
+                    type: integer
+                    example: 2
+                  products:
+                    type: array
+                    items:
+                      properties:
+                        weight:
+                          type: number
+                          example: 10.0
+                        description:
+                          type: string
+                          example: Celular
+                    
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: No se encuentra 'Shipping' con ID=5
+  /concurrent-task:
+    parameters: 
+    - name: "shippings"
+      in: "body"
+      required: true
+      type: array
+      description: "Envios"
+      items:
+        type: object
+        properties:
+          shipping-id:
+            type: integer
+          time-start-in-seg:
+            type: integer
+          next-state:
+            type: boolean
+    post:
+      summary: "Ejecutar el listado de tareas"
+      operationId: "postConcurrentTask"
+      consumes: 
+      - "/application/json"
+      responses: 
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Comenzó el proceso de ejecución de tareas...
+        404:
+          description: "Not Found"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: No se encuentra 'Shipping' con ID=...
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: "El estado siguiente no puede ser nulo"
+        500: 
+          description: Internal Server Error
+  /status:
+    get:
+      summary: "Informa el estado de los envios"
+      operationId: "getStatus"
+      responses: 
+        500: 
+          description: "Internal Server Error"
+  /reports/top-sent:
+    get:
+      summary: "Retorna los 3 productos mas solicitados"
+      operationId: "getTopSent"
+      responses: 
+        500: 
+          description: "Internal Server Error"

@@ -10,6 +10,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
+@DynamicInsert
 @Table(name = "shipping_item")
 public class ShippingItem implements Serializable {
     private static final long serialVersionUID = 1L;

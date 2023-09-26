@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import sube.interviews.mareoenvios.bo.CustomerBO;
 import sube.interviews.mareoenvios.dto.CustomerDTO;
 import sube.interviews.mareoenvios.exception.BusinessException;
-import sube.interviews.mareoenvios.exception.ServiceException;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/customers")
 public class CustomerService {
 
     private static final Logger LOGGER = LogManager.getLogger(CustomerService.class);
@@ -32,10 +31,10 @@ public class CustomerService {
             return ResponseEntity.status(HttpStatus.OK).body(customerDTO);
         }catch (BusinessException e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrio un error en el servidor.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }catch (NoResultException e){
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }

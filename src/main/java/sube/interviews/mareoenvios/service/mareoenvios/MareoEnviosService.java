@@ -14,20 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sube.interviews.mareoenvios.dto.ShippingStateRequestDTO;
 import sube.interviews.mareoenvios.enums.ShippingStateEnum;
-import sube.interviews.mareoenvios.enums.TaskStateEnum;
-import sube.interviews.mareoenvios.exception.BusinessException;
-import sube.interviews.mareoenvios.exception.RepositoryException;
-import sube.interviews.mareoenvios.service.CustomerService;
 
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 public class MareoEnviosService {
@@ -36,7 +23,7 @@ public class MareoEnviosService {
 
     private static final Logger LOGGER = LogManager.getLogger(MareoEnviosService.class);
 
-    @PatchMapping(value = "/api/shippings/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/shippings/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> patchShippingState(
             @Valid @Positive @PathVariable("id") Long id,
             @RequestBody ShippingStateRequestDTO body

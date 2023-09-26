@@ -14,10 +14,11 @@ public class ConcurrentTaskShippingDTO {
     private Long shippingId;
 
     @JsonProperty("time-start-in-seg")
+    @NotNull(message = "El tiempo de inicio no puede ser nulo")
     private Long timeStartInSeg = 0L;
 
-    @NotNull(message = "El estado siguiente no puede ser nulo")
     @Valid
+    @NotNull(message = "El estado siguiente no puede ser nulo")
     @JsonProperty("next-state")
     private Boolean nextState;
 }
