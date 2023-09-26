@@ -9,7 +9,7 @@ import sube.interviews.mareoenvios.entity.ShippingItem;
 
 import java.util.List;
 
-@Mapper
+@Mapper( componentModel = "spring" )
 public interface ProductMapper {
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 

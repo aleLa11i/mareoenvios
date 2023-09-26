@@ -54,20 +54,4 @@ public class Task {
         this(shippingId, state, error);
         this.date = date;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setShippingId(Shipping shippingId) {
-        this.shippingId = shippingId;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setError(String error) {
-        this.error = error;
-    }
 }

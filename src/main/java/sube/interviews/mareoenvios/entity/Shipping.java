@@ -51,34 +51,4 @@ public class Shipping implements Serializable {
     @JoinColumn( name = "shipping_id", referencedColumnName = "id")
     private List<Task> tasks = new ArrayList<>();
 
-    public Shipping() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public Date getSendDate() {
-        return sendDate;
-    }
-
-    public Date getArriveDate() {
-        return arriveDate;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
 }

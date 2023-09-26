@@ -32,17 +32,4 @@ public class Product implements Serializable {
     @JoinColumn( name = "product_id", referencedColumnName = "id")
     private List<ShippingItem> shippingItems = new ArrayList<>();
 
-    // Se generan Getters ya que mapstruct es incompatible con Lombok
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Float getWeight() {
-        return weight;
-    }
-
-    public List<ShippingItem> getShippingItems() {
-        return shippingItems;
-    }
 }

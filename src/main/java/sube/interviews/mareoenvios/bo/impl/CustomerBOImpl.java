@@ -21,11 +21,14 @@ public class CustomerBOImpl implements CustomerBO {
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    CustomerMapper customerMapper;
+
     @Override
     public CustomerDTO getbyId(Long id) throws BusinessException, NoResultException {
         try {
             Customer customer = customerRepository.getById(id);
-            return CustomerMapper.INSTANCE.mapEntityToDto(customer);
+            return customerMapper.mapEntityToDto(customer);
         } catch (RepositoryException e) {
             throw new BusinessException(e.getMessage(), e);
         } catch (NoResultException e) {

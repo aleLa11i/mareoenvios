@@ -24,11 +24,14 @@ public class ShippingBOImpl implements ShippingBO {
     @Autowired
     ShippingRepository shippingRepository;
 
+    @Autowired
+    ShippingMapper shippingMapper;
+
     @Override
     public ShippingDTO getbyId(Long id) throws BusinessException, NoResultException {
         try {
             Shipping shipping = shippingRepository.getById(id);
-            return ShippingMapper.INSTANCE.mapEntityToDto(shipping);
+            return shippingMapper.mapEntityToDto(shipping);
         } catch (RepositoryException e){
             throw new BusinessException(e.getMessage(), e);
         } catch (NoResultException e){
@@ -42,7 +45,7 @@ public class ShippingBOImpl implements ShippingBO {
     public List<ShippingStatesDTO> getStatus() throws BusinessException {
         try {
             List<Shipping> list = shippingRepository.getList();
-            return ShippingMapper.INSTANCE.mapListToStateDtoList(list);
+            return shippingMapper.mapListToStateDtoList(list);
         } catch (RepositoryException e) {
             throw new BusinessException(e.getMessage(), e);
         }

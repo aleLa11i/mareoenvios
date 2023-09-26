@@ -38,25 +38,4 @@ public class Customer implements Serializable {
     @JoinColumn( name = "customer_id", referencedColumnName = "id")
     private List<Shipping> shippings = new ArrayList<>();
 
-    // Se generan Getters ya que mapstruct es incompatible con Lombok
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public List<Shipping> getShippings() {
-        return shippings;
-    }
 }

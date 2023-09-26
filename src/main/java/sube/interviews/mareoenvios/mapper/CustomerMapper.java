@@ -6,7 +6,8 @@ import sube.interviews.mareoenvios.dto.CustomerDTO;
 import sube.interviews.mareoenvios.dto.CustomerShippingDTO;
 import sube.interviews.mareoenvios.entity.Customer;
 
-@Mapper( uses = {
+@Mapper( componentModel = "spring",
+        uses = {
         ShippingMapper.class
 })
 public interface CustomerMapper {

@@ -9,18 +9,6 @@ public class ProductToReportDTO implements Comparable {
     private String description;
     private Long totalAmount;
 
-    public void setWeight(Float weight) {
-        this.weight = weight;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setTotalAmount(Long totalAmount) {
-        this.totalAmount = totalAmount;
-    }
-
     @Override
     public int compareTo(Object o) {
         ProductToReportDTO product = (ProductToReportDTO) o;

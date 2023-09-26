@@ -16,27 +16,4 @@ public class ShippingDTO {
     private Integer priority;
     private List<ProductDTO> products = new ArrayList<ProductDTO>();
 
-    public void setCustomer(CustomerShippingDTO customer) {
-        this.customer = customer;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setSendDate(Date sendDate) {
-        this.sendDate = sendDate;
-    }
-
-    public void setArriveDate(Date arriveDate) {
-        this.arriveDate = arriveDate;
-    }
-
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
-
-    public void setProducts(List<ProductDTO> products) {
-        this.products = products;
-    }
 }

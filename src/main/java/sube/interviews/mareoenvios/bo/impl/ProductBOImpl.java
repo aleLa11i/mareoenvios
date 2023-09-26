@@ -18,10 +18,13 @@ public class ProductBOImpl implements ProductBO {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ProductMapper productMapper;
+
     @Override
     public List<ProductToReportDTO> topSent() throws BusinessException {
         try {
-            List<ProductToReportDTO> productList = ProductMapper.INSTANCE.mapListToProductToReportDTO(productRepository.getList());
+            List<ProductToReportDTO> productList = productMapper.mapListToProductToReportDTO(productRepository.getList());
             Collections.sort(productList, Collections.reverseOrder());
             return productList.subList(0,3);
         }catch (RepositoryException e){
