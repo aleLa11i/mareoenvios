@@ -22,15 +22,11 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 @Component
 public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
 
-    private final static Map<Long, ExecutorService> taskMap = new HashMap<>();
-    private final static Map<Long, Integer> countTaskMap = new HashMap<>();
     private final static Logger LOGGER = LogManager.getLogger(ConcurrentTaskBoImpl.class);
     private final static Long maxTimeTask = 60L; //Se establece un maximo de 60 segundos para cada tarea
 
@@ -48,84 +44,81 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
         taskDTO.getShippings().forEach(taskShippingDTO -> {
             try {
                 Shipping shipping = shippingRepository.getById(taskShippingDTO.getShippingId());
-                Task task = taskRepository.save(new Task(shipping, TaskStateEnum.IN_PROGRESS.getValue(), LocalDateTime.now()));
-
-                LOGGER.info(String.format("Comienza tarea para el envio con ID='%s'..", shipping.getId()));
+                Task task = taskRepository.save(new Task(shipping, TaskStateEnum.PENDING.getValue(), LocalDateTime.now(), taskShippingDTO.getNextState(), taskShippingDTO.getTimeStartInSeg()));
 
                 if(taskShippingDTO.getTimeStartInSeg() > maxTimeTask){
                     cancelTask(task,String.format("La tarea del envío con ID='%s' supera el tiempo maximo de %s segundos.",  shipping.getId(), maxTimeTask));
                     return;
                 }
-                if (shipping.getState().equals(ShippingStateEnum.CANCELLED.getValue())) {
-                    cancelTask(task,String.format("El envío con ID='%s' se encuentra cancelado por lo que no se puede ejecutar una tarea.", shipping.getId()));
-                    return;
-                }
-                if (shipping.getState().equals(ShippingStateEnum.DELIVERED.getValue())) {
-                    cancelTask(task,String.format("El envío con ID='%s' ya llego.", shipping.getId()));
+                if (taskRepository.hasInProgressTask(shipping)) {
+                    cancelTask(task, String.format("El envío con ID='%s' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.", shipping.getId()));
+                    taskRepository.save(new Task(shipping, TaskStateEnum.PENDING.getValue(), LocalDateTime.now(), taskShippingDTO.getNextState(), taskShippingDTO.getTimeStartInSeg()));
                     return;
                 }
 
                 Thread shippingTask = new Thread(() -> {
+                    ExecutorService executor = Executors.newSingleThreadExecutor();
                     try {
-                        this.executeTask(taskShippingDTO, shipping, task);
-                    } catch (BusinessException e) {
+                        Future<?> future;
+                        future = executor.submit( () ->{
+                            try {
+                                this.executeTask( task.getTimeStart(), task.getNextState(), task.getShippingId(), task);
+                            } catch (BusinessException e) {
+                                e.printStackTrace();
+                            }
+                        });
+                        future.get();
+                        do{
+                            Task actualTask = taskRepository.getPendingTaskList(shipping).get(0);
+                            future = executor.submit(() -> {
+                                try {
+                                    this.executeTask( actualTask.getTimeStart(), actualTask.getNextState(), actualTask.getShippingId(), actualTask);
+                                } catch (BusinessException e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                            future.get();
+                            //TODO: Agregar timeout
+                        }while(!taskRepository.getPendingTaskList(shipping).isEmpty());
+                    } catch (InterruptedException | ExecutionException | RepositoryException e) {
                         e.printStackTrace();
+                    }  finally {
+                        executor.shutdown();
                     }
                 });
 
+                shippingTask.start();
 
-                ArrayList<Long> idsThreadsList = new ArrayList<>(taskMap.keySet());
-                if (idsThreadsList.contains(shipping.getId())) {
-                    taskRepository.save(new Task(shipping, TaskStateEnum.FAILED.getValue(),String.format("El envío con ID='%s' ya posee una tarea ejecutandose", shipping.getId()), LocalDateTime.now(), LocalDateTime.now()));
-                    LOGGER.info(String.format("El envío con ID='%s' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.", shipping.getId()));
-                    taskMap.get(shipping.getId()).submit(shippingTask);
-                    countTaskMap.put(shipping.getId(), countTaskMap.get(shipping.getId()) + 1 );
-                } else {
-                    ExecutorService executorService = Executors.newCachedThreadPool();
-                    taskMap.put(shipping.getId(), executorService);
-                    countTaskMap.put(shipping.getId(), 1);
-                    executorService.execute(shippingTask);
-                }
             } catch (BusinessException | RepositoryException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    private void executeTask(ConcurrentTaskShippingDTO taskShippingDTO, Shipping shipping, Task task) throws BusinessException {
-        TimerTask timingTask = new TimerTask() {
-            public void run() {
-                try {
-                    LOGGER.info(String.format("Ejecutando tarea para el envio con ID='%s'", shipping.getId()));
+    private void executeTask(Long timeStart, Boolean nextState, Shipping shipping, Task task) throws BusinessException {
+        try{
+            task.setState(TaskStateEnum.IN_PROGRESS.getValue());
+            taskRepository.update(task);
+            TimeUnit.SECONDS.sleep(timeStart);
 
-                    changeState(taskShippingDTO.getNextState(), shipping);
-                    mareoEnviosAPI.patchState(shipping.getId(), shipping.getState());
+            LOGGER.info(String.format("Ejecutando tarea para el envio con ID='%s'", shipping.getId()));
 
-                    shippingRepository.update(shipping);
+            changeState(nextState, shipping, task);
+            mareoEnviosAPI.patchState(shipping.getId(), shipping.getState());
 
-                    task.setState(TaskStateEnum.SUCCESS.getValue());
-                    task.setEndDate(LocalDateTime.now());
-                    taskRepository.update(task);
+            shippingRepository.update(shipping);
 
-                    LOGGER.info(String.format("Se ejecuto correctamente tarea para el envio con ID='%s'", shipping.getId()));
-                } catch (NoResultException | BusinessException | RepositoryException | IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    countTaskMap.put(shipping.getId(), countTaskMap.get(shipping.getId()) - 1 );
-                    if( countTaskMap.get(shipping.getId()) == 0){
-                        taskMap.get(shipping.getId()).shutdown();
-                        LOGGER.info("Finalizo cola de tareas con ID ="+ shipping.getId());
-                        taskMap.remove(shipping.getId());
-                    }
-                }
-            }
-        };
-        Timer timer = new Timer("Timer");
-        long delay = taskShippingDTO.getTimeStartInSeg() * 1000; //El timer toma en milisec por eso hay que hacer el pasaje
-        timer.schedule(timingTask, delay);
+            task.setState(TaskStateEnum.SUCCESS.getValue());
+            task.setEndDate(LocalDateTime.now());
+            taskRepository.update(task);
+
+            LOGGER.info(String.format("Se ejecuto correctamente tarea para el envio con ID='%s'", shipping.getId()));
+        }catch (RepositoryException | InterruptedException | IOException e ){
+            throw new BusinessException(e.getMessage(), e);
+        }
     }
 
-    private void changeState(Boolean nextState, Shipping shipping) throws BusinessException {
+    private void changeState(Boolean nextState, Shipping shipping, Task task) throws BusinessException {
         try {
             if (!nextState) {
                 shipping.setState(ShippingStateEnum.CANCELLED.getValue());
@@ -137,6 +130,14 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                     case IN_TRAVEL -> {
                         shipping.setState(ShippingStateEnum.DELIVERED.getValue());
                         shipping.setArriveDate(Date.valueOf(LocalDate.now())); //Si el envío cambia a "Entregado" hay que registrar la fecha de llegada
+                    }
+                    case CANCELLED -> {
+                        cancelTask(task,String.format("El envío con ID='%s' se encuentra cancelado.", shipping.getId()));
+                        throw new BusinessException(String.format("El envío con ID='%s' se encuentra cancelado.", shipping.getId()));
+                    }
+                    case DELIVERED -> {
+                        cancelTask(task,String.format("El envío con ID='%s' ya llego.", shipping.getId()));
+                        throw new BusinessException(String.format("El envío con ID='%s' ya llego.", shipping.getId()));
                     }
                 }
             }

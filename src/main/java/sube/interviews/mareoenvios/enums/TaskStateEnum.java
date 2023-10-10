@@ -4,7 +4,8 @@ public enum TaskStateEnum {
 
     SUCCESS("Éxito"),
     FAILED("Fallido"),
-    IN_PROGRESS("En progreso");
+    IN_PROGRESS("En progreso"),
+    PENDING("Pendiente");
 
     private final String value;
 

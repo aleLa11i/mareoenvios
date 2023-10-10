@@ -36,12 +36,24 @@ public class Task {
     @Column(name = "end_date", nullable = true)
     private LocalDateTime endDate;
 
+    @Column(name = "next_state", nullable = true)
+    private Boolean nextState;
+
+    @Column(name = "time_start", nullable = true)
+    private Long timeStart;
+
     public Task(){}
 
     public Task(Shipping shippingId, String state, LocalDateTime startDate) {
         this.shippingId = shippingId;
         this.state = state;
         this.startDate = startDate;
+    }
+
+    public Task(Shipping shippingId, String state, LocalDateTime startDate, Boolean nextState, Long timeStart) {
+        this(shippingId, state, startDate);
+        this.nextState = nextState;
+        this.timeStart = timeStart;
     }
 
     public Task(Shipping shippingId, String state, String error, LocalDateTime startDate, LocalDateTime endDate) {
@@ -51,4 +63,6 @@ public class Task {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
+
 }
