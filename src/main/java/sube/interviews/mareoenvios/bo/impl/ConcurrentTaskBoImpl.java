@@ -73,16 +73,21 @@ public class ConcurrentTaskBoImpl implements ConcurrentTaskBO {
                                 }
                             });
                             future.get( Integer.parseInt(maxTimeTask), TimeUnit.SECONDS);
-                            actualTask = taskRepository.getPendingTaskList(shipping).get(0);
+                            actualTask = taskRepository.getPendingTask(shipping);
 
                         }while(!taskRepository.getPendingTaskList(shipping).isEmpty());
+
+                        future.get();
+                        if( !taskRepository.hasPendingOrInProcessTasks() ){
+                            LOGGER.info("----------YA NO HAY MAS TAREAS PENDIENTES----------");
+                        }
+
                     } catch (InterruptedException | ExecutionException | RepositoryException | TimeoutException e) {
                         e.printStackTrace();
                     }  finally {
                         executor.shutdown();
                     }
                 }).start();
-
             } catch (BusinessException | RepositoryException e) {
                 e.printStackTrace();
             }
