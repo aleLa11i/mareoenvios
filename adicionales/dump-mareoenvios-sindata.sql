@@ -19,6 +19,7 @@
 -- Table structure for table `customer`
 --
 
+DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customer` (
@@ -35,6 +36,7 @@ CREATE TABLE `customer` (
 -- Table structure for table `product`
 --
 
+DROP TABLE IF EXISTS `product`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
@@ -49,6 +51,7 @@ CREATE TABLE `product` (
 -- Table structure for table `shipping`
 --
 
+DROP TABLE IF EXISTS `shipping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping` (
@@ -68,6 +71,7 @@ CREATE TABLE `shipping` (
 -- Table structure for table `shipping_item`
 --
 
+DROP TABLE IF EXISTS `shipping_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_item` (
@@ -87,6 +91,7 @@ CREATE TABLE `shipping_item` (
 -- Table structure for table `shipping_task`
 --
 
+DROP TABLE IF EXISTS `shipping_task`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_task` (
@@ -96,10 +101,12 @@ CREATE TABLE `shipping_task` (
   `error` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
+  `next_state` tinyint(1) DEFAULT NULL,
+  `time_start` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `task_FK` (`shipping_id`),
   CONSTRAINT `task_FK` FOREIGN KEY (`shipping_id`) REFERENCES `shipping` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=665 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,4 +122,4 @@ CREATE TABLE `shipping_task` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-26 13:07:08
+-- Dump completed on 2023-10-25  9:42:19

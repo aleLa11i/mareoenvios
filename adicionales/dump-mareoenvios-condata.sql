@@ -38,10 +38,7 @@ CREATE TABLE `customer` (
 
 LOCK TABLES `customer` WRITE;
 /*!40000 ALTER TABLE `customer` DISABLE KEYS */;
-INSERT INTO `customer` VALUES (1,'Sofia','Gonzalez','Pellegrini 560 3 B','Rosario');
-INSERT INTO `customer` VALUES (2,'Carla','Torres','Mendoza 1302 PB','Rosario');
-INSERT INTO `customer` VALUES (3,'Juan','Perez','Pellegrini 1234','Rosario');
-INSERT INTO `customer` VALUES (4,'Homero ','Simpson','Avenida Siempre Viva  742','Springfield');
+INSERT INTO `customer` VALUES (1,'Sofia','Gonzalez','Pellegrini 560 3 B','Rosario'),(2,'Carla','Torres','Mendoza 1302 PB','Rosario'),(3,'Juan','Perez','Pellegrini 1234','Rosario'),(4,'Homero ','Simpson','Avenida Siempre Viva  742','Springfield');
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -66,19 +63,7 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'Termo Stanly',23);
-INSERT INTO `product` VALUES (2,'Set de cubiertos',10);
-INSERT INTO `product` VALUES (3,'Producto 1',60);
-INSERT INTO `product` VALUES (4,'Celular',50);
-INSERT INTO `product` VALUES (5,'Vaso',50);
-INSERT INTO `product` VALUES (6,'Plato',30);
-INSERT INTO `product` VALUES (7,'Agujereadora',25);
-INSERT INTO `product` VALUES (8,'Auriculares',10);
-INSERT INTO `product` VALUES (9,'Jueguete 1',80);
-INSERT INTO `product` VALUES (10,'Jueguete 2',12);
-INSERT INTO `product` VALUES (11,'Joystick',100);
-INSERT INTO `product` VALUES (12,'Teclado',50);
-INSERT INTO `product` VALUES (13,'Mouse',27);
+INSERT INTO `product` VALUES (1,'Termo Stanly',23),(2,'Set de cubiertos',10),(3,'Producto 1',60),(4,'Celular',50),(5,'Vaso',50),(6,'Plato',30),(7,'Agujereadora',25),(8,'Auriculares',10),(9,'Jueguete 1',80),(10,'Jueguete 2',12),(11,'Joystick',100),(12,'Teclado',50),(13,'Mouse',27);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,17 +93,7 @@ CREATE TABLE `shipping` (
 
 LOCK TABLES `shipping` WRITE;
 /*!40000 ALTER TABLE `shipping` DISABLE KEYS */;
-INSERT INTO `shipping` VALUES (1,1,'Entregado','2023-03-01','2023-09-25',2);
-INSERT INTO `shipping` VALUES (2,1,'Cancelado','2023-03-01',NULL,3);
-INSERT INTO `shipping` VALUES (3,2,'Cancelado','2023-11-20',NULL,2);
-INSERT INTO `shipping` VALUES (4,2,'Entregado','2023-05-21','2023-09-26',1);
-INSERT INTO `shipping` VALUES (5,1,'Entregado','2022-03-01','2022-03-07',2);
-INSERT INTO `shipping` VALUES (6,3,'Entregado a correo','2023-10-03',NULL,2);
-INSERT INTO `shipping` VALUES (7,1,'En camino','2023-09-17',NULL,3);
-INSERT INTO `shipping` VALUES (8,3,'Inicial','2022-03-01',NULL,1);
-INSERT INTO `shipping` VALUES (9,4,'Entregado','2010-04-05','2010-04-06',1);
-INSERT INTO `shipping` VALUES (10,4,'Entregado','2017-01-15','2023-09-26',2);
-INSERT INTO `shipping` VALUES (11,4,'Cancelado','2010-04-05',NULL,3);
+INSERT INTO `shipping` VALUES (1,1,'Cancelado','2023-03-01','2023-10-11',2),(2,1,'En camino','2023-03-01','2023-10-11',3),(3,2,'Entregado a correo','2023-11-20',NULL,2),(4,2,'Entregado','2023-05-21','2023-09-26',1),(5,1,'Entregado','2022-03-01','2022-03-07',2),(6,3,'Entregado a correo','2023-10-03',NULL,2),(7,1,'En camino','2023-09-17',NULL,3),(8,3,'Inicial','2022-03-01',NULL,1),(9,4,'Entregado','2010-04-05','2010-04-06',1),(10,4,'Entregado','2017-01-15','2023-09-26',2),(11,4,'Cancelado','2010-04-05',NULL,3);
 /*!40000 ALTER TABLE `shipping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,30 +123,7 @@ CREATE TABLE `shipping_item` (
 
 LOCK TABLES `shipping_item` WRITE;
 /*!40000 ALTER TABLE `shipping_item` DISABLE KEYS */;
-INSERT INTO `shipping_item` VALUES (1,1,1,3);
-INSERT INTO `shipping_item` VALUES (2,2,2,2);
-INSERT INTO `shipping_item` VALUES (3,1,2,1);
-INSERT INTO `shipping_item` VALUES (4,4,1,3);
-INSERT INTO `shipping_item` VALUES (5,8,3,42);
-INSERT INTO `shipping_item` VALUES (6,3,4,3);
-INSERT INTO `shipping_item` VALUES (7,11,13,1);
-INSERT INTO `shipping_item` VALUES (8,9,12,2);
-INSERT INTO `shipping_item` VALUES (9,4,8,1);
-INSERT INTO `shipping_item` VALUES (10,6,5,3);
-INSERT INTO `shipping_item` VALUES (11,7,3,5);
-INSERT INTO `shipping_item` VALUES (12,8,7,1);
-INSERT INTO `shipping_item` VALUES (13,11,8,20);
-INSERT INTO `shipping_item` VALUES (14,5,3,1);
-INSERT INTO `shipping_item` VALUES (15,3,8,2);
-INSERT INTO `shipping_item` VALUES (16,5,10,10);
-INSERT INTO `shipping_item` VALUES (17,4,2,2);
-INSERT INTO `shipping_item` VALUES (18,10,4,1);
-INSERT INTO `shipping_item` VALUES (19,10,1,1);
-INSERT INTO `shipping_item` VALUES (20,4,8,1);
-INSERT INTO `shipping_item` VALUES (21,2,4,2);
-INSERT INTO `shipping_item` VALUES (22,1,12,1);
-INSERT INTO `shipping_item` VALUES (23,4,8,1);
-INSERT INTO `shipping_item` VALUES (24,1,10,2);
+INSERT INTO `shipping_item` VALUES (1,1,1,3),(2,2,2,2),(3,1,2,1),(4,4,1,3),(5,8,3,42),(6,3,4,3),(7,11,13,1),(8,9,12,2),(9,4,8,1),(10,6,5,3),(11,7,3,5),(12,8,7,1),(13,11,8,20),(14,5,3,1),(15,3,8,2),(16,5,10,10),(17,4,2,2),(18,10,4,1),(19,10,1,1),(20,4,8,1),(21,2,4,2),(22,1,12,1),(23,4,8,1),(24,1,10,2);
 /*!40000 ALTER TABLE `shipping_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,10 +141,12 @@ CREATE TABLE `shipping_task` (
   `error` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   `start_date` datetime DEFAULT NULL,
+  `next_state` tinyint(1) DEFAULT NULL,
+  `time_start` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `task_FK` (`shipping_id`),
   CONSTRAINT `task_FK` FOREIGN KEY (`shipping_id`) REFERENCES `shipping` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=665 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,111 +155,7 @@ CREATE TABLE `shipping_task` (
 
 LOCK TABLES `shipping_task` WRITE;
 /*!40000 ALTER TABLE `shipping_task` DISABLE KEYS */;
-INSERT INTO `shipping_task` VALUES (1,1,'En progreso','',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (2,1,'Éxito',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (3,1,'Éxito',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (4,3,'Fallido','El envío con ID=\'3\' se encuentra cancelado por lo que no se puede ejecutar una tarea.',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (5,5,'Fallido','El envío con ID=\'5\' ya llego.',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (6,5,'Fallido','El envío con ID=\'5\' ya llego.',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (7,1,'Éxito',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (8,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (9,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (10,3,'Fallido','El envío con ID=\'3\' se encuentra cancelado por lo que no se puede ejecutar una tarea.',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (11,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (12,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (13,3,'Fallido','El envío con ID=\'3\' se encuentra cancelado por lo que no se puede ejecutar una tarea.',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (14,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (15,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (16,4,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (17,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (18,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (19,4,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (20,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (21,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (22,4,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (23,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (24,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (25,4,'Fallido','El envío con ID=\'4\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (26,1,'Éxito',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (27,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (28,4,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (29,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (30,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (31,4,'Fallido','El envío con ID=\'4\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (32,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (33,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (34,4,'Fallido','El envío con ID=\'4\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (35,1,'Éxito',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (36,2,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (37,4,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (38,1,'Éxito',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (39,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (40,4,'Fallido','El envío con ID=\'4\' ya posee una tarea ejecutandose',NULL,NULL);
-INSERT INTO `shipping_task` VALUES (41,3,'Fallido','El envío con ID=\'3\' se encuentra cancelado por lo que no se puede ejecutar una tarea.','2023-09-24 22:12:44',NULL);
-INSERT INTO `shipping_task` VALUES (42,3,'Fallido','El envío con ID=\'3\' se encuentra cancelado por lo que no se puede ejecutar una tarea.','2023-09-25 11:55:08',NULL);
-INSERT INTO `shipping_task` VALUES (43,1,'Éxito',NULL,'2023-09-25 11:55:38',NULL);
-INSERT INTO `shipping_task` VALUES (44,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-25 14:28:56',NULL);
-INSERT INTO `shipping_task` VALUES (45,1,'Éxito',NULL,'2023-09-25 14:30:30',NULL);
-INSERT INTO `shipping_task` VALUES (46,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (47,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (48,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose','2023-09-25 14:54:03',NULL);
-INSERT INTO `shipping_task` VALUES (49,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose','2023-09-25 14:54:29',NULL);
-INSERT INTO `shipping_task` VALUES (50,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (51,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose','2023-09-25 14:58:33',NULL);
-INSERT INTO `shipping_task` VALUES (52,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (53,1,'Éxito',NULL,'2023-09-25 15:01:47',NULL);
-INSERT INTO `shipping_task` VALUES (54,1,'Éxito',NULL,'2023-09-25 15:03:12',NULL);
-INSERT INTO `shipping_task` VALUES (55,1,'Éxito',NULL,'2023-09-25 15:07:31',NULL);
-INSERT INTO `shipping_task` VALUES (56,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-25 15:08:51',NULL);
-INSERT INTO `shipping_task` VALUES (57,1,'Éxito',NULL,'2023-09-25 15:09:07',NULL);
-INSERT INTO `shipping_task` VALUES (58,1,'Éxito',NULL,'2023-09-25 15:10:00',NULL);
-INSERT INTO `shipping_task` VALUES (59,1,'Éxito',NULL,'2023-09-25 15:10:21',NULL);
-INSERT INTO `shipping_task` VALUES (60,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-25 15:10:25',NULL);
-INSERT INTO `shipping_task` VALUES (61,1,'Éxito',NULL,'2023-09-25 15:10:52',NULL);
-INSERT INTO `shipping_task` VALUES (62,1,'Éxito',NULL,'2023-09-25 15:11:29',NULL);
-INSERT INTO `shipping_task` VALUES (63,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (64,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose','2023-09-25 20:38:57',NULL);
-INSERT INTO `shipping_task` VALUES (65,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (66,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (67,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutandose','2023-09-25 20:42:47',NULL);
-INSERT INTO `shipping_task` VALUES (68,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (69,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (70,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60000.','2023-09-25 20:44:05',NULL);
-INSERT INTO `shipping_task` VALUES (71,1,'Éxito',NULL,'2023-09-25 20:44:11',NULL);
-INSERT INTO `shipping_task` VALUES (72,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-25 20:45:08',NULL);
-INSERT INTO `shipping_task` VALUES (73,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-25 20:45:08',NULL);
-INSERT INTO `shipping_task` VALUES (74,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-25 20:45:08',NULL);
-INSERT INTO `shipping_task` VALUES (75,1,'Éxito',NULL,'2023-09-25 20:46:52',NULL);
-INSERT INTO `shipping_task` VALUES (76,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:45:49',NULL);
-INSERT INTO `shipping_task` VALUES (77,1,'Éxito',NULL,'2023-09-25 20:45:51',NULL);
-INSERT INTO `shipping_task` VALUES (78,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (79,2,'Fallido','La tarea del envío con ID=\'2\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:46:22',NULL);
-INSERT INTO `shipping_task` VALUES (80,4,'Éxito',NULL,'2023-09-25 20:46:24',NULL);
-INSERT INTO `shipping_task` VALUES (81,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:46:42',NULL);
-INSERT INTO `shipping_task` VALUES (82,2,'Fallido','La tarea del envío con ID=\'2\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:46:42',NULL);
-INSERT INTO `shipping_task` VALUES (83,4,'Éxito',NULL,'2023-09-25 20:46:46',NULL);
-INSERT INTO `shipping_task` VALUES (84,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:49:48',NULL);
-INSERT INTO `shipping_task` VALUES (85,2,'Fallido','La tarea del envío con ID=\'2\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:49:48',NULL);
-INSERT INTO `shipping_task` VALUES (86,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:50:19',NULL);
-INSERT INTO `shipping_task` VALUES (87,2,'Fallido','La tarea del envío con ID=\'2\' supera el tiempo maximo de 60 segundos.','2023-09-25 20:50:19',NULL);
-INSERT INTO `shipping_task` VALUES (88,4,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (89,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 23:45:11',NULL);
-INSERT INTO `shipping_task` VALUES (90,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 23:47:33',NULL);
-INSERT INTO `shipping_task` VALUES (91,1,'En progreso',NULL,NULL,NULL);
-INSERT INTO `shipping_task` VALUES (92,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-25 23:50:17',NULL);
-INSERT INTO `shipping_task` VALUES (93,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-26 01:10:11',NULL);
-INSERT INTO `shipping_task` VALUES (94,2,'Fallido','La tarea del envío con ID=\'2\' supera el tiempo maximo de 60 segundos.','2023-09-26 01:10:18',NULL);
-INSERT INTO `shipping_task` VALUES (95,4,'Éxito',NULL,'2023-09-26 01:10:41',NULL);
-INSERT INTO `shipping_task` VALUES (96,1,'Éxito',NULL,'2023-09-26 12:45:30','2023-09-26 12:45:18');
-INSERT INTO `shipping_task` VALUES (97,1,'Éxito',NULL,'2023-09-26 12:46:27','2023-09-26 12:46:14');
-INSERT INTO `shipping_task` VALUES (98,1,'Éxito',NULL,'2023-09-26 12:47:08','2023-09-26 12:46:55');
-INSERT INTO `shipping_task` VALUES (99,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado por lo que no se puede ejecutar una tarea.','2023-09-26 12:47:19','2023-09-26 12:47:19');
-INSERT INTO `shipping_task` VALUES (100,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-09-26 12:47:45','2023-09-26 12:47:45');
-INSERT INTO `shipping_task` VALUES (101,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-09-26 12:48:22','2023-09-26 12:48:22');
-INSERT INTO `shipping_task` VALUES (102,10,'Éxito',NULL,'2023-09-26 12:49:15','2023-09-26 12:48:57');
-INSERT INTO `shipping_task` VALUES (103,2,'Éxito',NULL,'2023-09-26 12:50:54','2023-09-26 12:50:34');
-INSERT INTO `shipping_task` VALUES (104,5,'Fallido','El envío con ID=\'5\' ya llego.','2023-09-26 12:50:34','2023-09-26 12:50:34');
-INSERT INTO `shipping_task` VALUES (105,10,'Éxito',NULL,'2023-09-26 12:50:54','2023-09-26 12:50:34');
+INSERT INTO `shipping_task` VALUES (544,1,'Éxito',NULL,'2023-10-10 14:46:23','2023-10-10 14:46:12',1,10),(545,2,'Éxito',NULL,'2023-10-10 14:46:22','2023-10-10 14:46:12',1,7),(546,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-10 14:46:12','2023-10-10 14:46:12',1,5),(547,1,'Éxito',NULL,'2023-10-10 14:46:31','2023-10-10 14:46:12',1,5),(548,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-10 14:46:12','2023-10-10 14:46:12',1,10),(549,1,'Éxito',NULL,'2023-10-10 14:46:46','2023-10-10 14:46:12',1,10),(550,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-10 14:46:12','2023-10-10 14:46:12',1,8),(551,2,'Éxito',NULL,'2023-10-10 14:46:35','2023-10-10 14:46:12',1,8),(552,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-10 14:46:12','2023-10-10 14:46:12',1,5),(553,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-10-10 14:46:51','2023-10-10 14:46:12',1,5),(554,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-10-11 11:36:26','2023-10-10 14:54:29',1,72),(555,1,'Éxito',NULL,'2023-10-11 11:38:07','2023-10-10 17:17:34',1,72),(556,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-10-10 17:18:00','2023-10-10 17:18:00',1,72),(557,1,'Fallido','La tarea del envío con ID=\'1\' supera el tiempo maximo de 60 segundos.','2023-10-10 17:18:05','2023-10-10 17:18:04',1,72),(558,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-10-11 11:35:14','2023-10-11 11:35:04',1,10),(559,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:35:04','2023-10-11 11:35:04',1,5),(560,1,'Fallido','El envío con ID=\'1\' ya llego.','2023-10-11 12:25:44','2023-10-11 11:35:04',1,5),(561,2,'Fallido','El envío con ID=\'2\' ya llego.','2023-10-11 11:35:08','2023-10-11 11:35:04',1,4),(562,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:35:04','2023-10-11 11:35:04',0,8),(563,1,'Éxito',NULL,'2023-10-11 12:26:02','2023-10-11 11:35:04',0,8),(564,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:35:04','2023-10-11 11:35:04',1,12),(565,2,'Fallido','El envío con ID=\'2\' ya llego.','2023-10-11 11:35:20','2023-10-11 11:35:04',1,12),(566,1,'Éxito',NULL,'2023-10-11 11:36:52','2023-10-11 11:36:40',1,10),(567,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:36:41','2023-10-11 11:36:41',1,5),(568,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:26:22','2023-10-11 11:36:41',1,5),(569,2,'Éxito',NULL,'2023-10-11 11:36:48','2023-10-11 11:36:41',1,4),(570,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:36:41','2023-10-11 11:36:41',0,8),(571,1,'Éxito',NULL,'2023-10-11 12:26:45','2023-10-11 11:36:41',0,8),(572,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:36:41','2023-10-11 11:36:41',1,12),(573,2,'Éxito',NULL,'2023-10-11 11:37:05','2023-10-11 11:36:41',1,12),(574,1,'Éxito',NULL,'2023-10-11 11:51:42','2023-10-11 11:51:24',1,10),(575,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:51:24','2023-10-11 11:51:24',1,5),(576,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:26:56','2023-10-11 11:51:24',1,5),(577,2,'Éxito',NULL,'2023-10-11 11:51:31','2023-10-11 11:51:24',1,4),(578,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:51:24','2023-10-11 11:51:24',0,8),(579,1,'Éxito',NULL,'2023-10-11 12:27:20','2023-10-11 11:51:24',0,8),(580,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:51:24','2023-10-11 11:51:24',1,12),(581,2,'Éxito',NULL,'2023-10-11 11:52:10','2023-10-11 11:51:24',1,12),(582,1,'Éxito',NULL,'2023-10-11 11:53:45','2023-10-11 11:53:32',1,10),(583,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 11:53:32','2023-10-11 11:53:32',1,5),(584,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:28:01','2023-10-11 11:53:32',1,5),(585,1,'Éxito',NULL,'2023-10-11 12:25:29','2023-10-11 12:25:14',1,10),(586,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:25:14','2023-10-11 12:25:14',1,5),(587,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:28:09','2023-10-11 12:25:14',1,5),(588,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:32:36','2023-10-11 12:32:26',1,10),(589,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:32:26','2023-10-11 12:32:26',1,5),(590,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:33:02','2023-10-11 12:32:26',1,5),(591,1,'Éxito',NULL,'2023-10-11 12:34:46','2023-10-11 12:34:11',1,10),(592,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:34:11','2023-10-11 12:34:11',1,5),(593,1,'Éxito',NULL,'2023-10-11 12:34:54','2023-10-11 12:34:11',1,5),(594,2,'Éxito',NULL,'2023-10-11 12:34:17','2023-10-11 12:34:11',1,4),(595,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:34:11','2023-10-11 12:34:11',0,8),(596,1,'Éxito',NULL,'2023-10-11 12:35:05','2023-10-11 12:34:11',0,8),(597,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:34:11','2023-10-11 12:34:11',1,12),(598,2,'Éxito',NULL,'2023-10-11 12:35:00','2023-10-11 12:34:11',1,12),(599,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:40:56','2023-10-11 12:40:22',1,10),(600,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:40:22','2023-10-11 12:40:22',1,5),(601,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:41:14','2023-10-11 12:40:22',1,5),(602,2,'Éxito',NULL,'2023-10-11 12:40:31','2023-10-11 12:40:22',1,4),(603,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:40:22','2023-10-11 12:40:22',0,8),(604,1,'Éxito',NULL,'2023-10-11 12:41:25','2023-10-11 12:40:22',0,8),(605,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:40:22','2023-10-11 12:40:22',1,12),(625,1,'Éxito',NULL,'2023-10-11 12:45:35','2023-10-11 12:45:24',1,10),(626,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:45:24','2023-10-11 12:45:24',1,5),(627,1,'Éxito',NULL,'2023-10-11 12:45:43','2023-10-11 12:45:24',1,5),(628,2,'Éxito',NULL,'2023-10-11 12:45:29','2023-10-11 12:45:24',1,4),(629,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:45:24','2023-10-11 12:45:24',0,8),(630,1,'Éxito',NULL,'2023-10-11 12:45:56','2023-10-11 12:45:24',0,8),(631,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:45:24','2023-10-11 12:45:24',1,12),(632,2,'Éxito',NULL,'2023-10-11 12:45:44','2023-10-11 12:45:24',1,12),(633,1,'Éxito',NULL,'2023-10-11 12:48:21','2023-10-11 12:48:10',1,10),(634,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:48:10','2023-10-11 12:48:10',1,5),(635,1,'Éxito',NULL,'2023-10-11 12:48:29','2023-10-11 12:48:10',1,5),(636,2,'Éxito',NULL,'2023-10-11 12:48:15','2023-10-11 12:48:10',1,4),(637,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:48:10','2023-10-11 12:48:10',0,8),(638,1,'Éxito',NULL,'2023-10-11 12:48:40','2023-10-11 12:48:10',0,8),(639,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:48:10','2023-10-11 12:48:10',1,12),(640,2,'Éxito',NULL,'2023-10-11 12:48:31','2023-10-11 12:48:10',1,12),(641,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:52:10','2023-10-11 12:52:00',1,10),(642,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:52:00','2023-10-11 12:52:00',1,5),(643,1,'Fallido','El envío con ID=\'1\' se encuentra cancelado.','2023-10-11 12:52:15','2023-10-11 12:52:00',1,5),(644,2,'Éxito',NULL,'2023-10-11 12:52:09','2023-10-11 12:52:00',1,4),(645,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:52:00','2023-10-11 12:52:00',0,8),(646,1,'Éxito',NULL,'2023-10-11 12:52:26','2023-10-11 12:52:00',0,8),(647,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:52:00','2023-10-11 12:52:00',1,12),(648,2,'Fallido','El envío con ID=\'2\' ya llego.','2023-10-11 12:52:21','2023-10-11 12:52:00',1,12),(649,1,'Éxito',NULL,'2023-10-11 12:52:57','2023-10-11 12:52:46',1,10),(650,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:52:46','2023-10-11 12:52:46',1,5),(651,1,'Éxito',NULL,'2023-10-11 12:53:05','2023-10-11 12:52:46',1,5),(652,2,'Éxito',NULL,'2023-10-11 12:52:51','2023-10-11 12:52:46',1,4),(653,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:52:46','2023-10-11 12:52:46',0,8),(654,1,'Éxito',NULL,'2023-10-11 12:53:16','2023-10-11 12:52:46',0,8),(655,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 12:52:46','2023-10-11 12:52:46',1,12),(656,2,'Éxito',NULL,'2023-10-11 12:53:06','2023-10-11 12:52:46',1,12),(657,1,'Éxito',NULL,'2023-10-11 13:03:41','2023-10-11 13:03:30',1,10),(658,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 13:03:30','2023-10-11 13:03:30',1,5),(659,1,'Éxito',NULL,'2023-10-11 13:03:49','2023-10-11 13:03:30',1,5),(660,2,'Éxito',NULL,'2023-10-11 13:03:35','2023-10-11 13:03:30',1,4),(661,1,'Fallido','El envío con ID=\'1\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 13:03:30','2023-10-11 13:03:30',0,8),(662,1,'Éxito',NULL,'2023-10-11 13:04:00','2023-10-11 13:03:30',0,8),(663,2,'Fallido','El envío con ID=\'2\' ya posee una tarea ejecutándose. Se agrega la cola y comenzara a ejecutarse luego de la tarea previa.','2023-10-11 13:03:30','2023-10-11 13:03:30',1,12),(664,2,'Éxito',NULL,'2023-10-11 13:03:50','2023-10-11 13:03:30',1,12);
 /*!40000 ALTER TABLE `shipping_task` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -322,4 +172,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-26 12:57:16
+-- Dump completed on 2023-10-25  9:44:49
